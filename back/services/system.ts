@@ -402,7 +402,7 @@ export default class SystemService {
   public async exportData(res: Response) {
     try {
       await promiseExec(
-        `cd ${config.rootPath} && tar -zcvf ${config.dataTgzFile} data/`,
+        `cd ${config.dataPath} && cd ../ && tar -zcvf ${config.dataTgzFile} data/`,
       );
       res.download(config.dataTgzFile);
     } catch (error: any) {
@@ -414,7 +414,7 @@ export default class SystemService {
     try {
       await promiseExec(`rm -rf ${path.join(config.tmpPath, 'data')}`);
       const res = await promiseExec(
-        `cd ${config.tmpPath} && tar -zxvf data.tgz`,
+        `cd ${config.tmpPath} && tar -zxvf ${config.dataTgzFile}`,
       );
       return { code: 200, data: res };
     } catch (error: any) {
